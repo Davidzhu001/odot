@@ -33,11 +33,11 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
-  gem 'rspec-rails', '~> 2.0'
+  gem 'rspec-rails'
 end
 
 group :test do
-  gem 'capybara', '~> 2.1.0'
+  gem 'capybara'
 end
 
 group :development, :test do
