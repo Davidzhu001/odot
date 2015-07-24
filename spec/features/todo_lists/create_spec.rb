@@ -2,31 +2,32 @@ require "spec_helper"
 
 describe "Create todo lists" do 
 
-	it "redirect to the todo list index page on success" do
+	def create_todo_list(options={})
+		options[:title] ||= "This is a todo list"
+		options[:Description] ||= "This is a describe of todo_lists"
 		visit "/todo_lists"
 		click_link "New Todo list"
 		expect(page).to have_content("New Todo List")
 
-		fill_in "Title", with: "My todo_lists"
-		fill_in "Description", with: "This is what I amdoing"
+		fill_in "Title", with: options[:title]
+		fill_in "Description", with: options[:description]
 		click_button ("Create Todo list")
-		expect(page).to have_content("My todo_lists")
+
+	end
+
+	it "redirect to the todo list index page on success" do
+		create_todo_list
+		expect(page).to have_content("This is a todo list")
 	end
 
 	it "erro with no title" do
 		expect(TodoList.count).to eq(0)
-		visit "/todo_lists"
-		click_link "Ne"
-		expect(page).to have_content("New Todo List")
-
-		fill_in "Title", with: ""
-		fill_in "Description", with: "This is what I amdoing"
-		click_button ("Create Todo list")
+		create_todo_list(title: " ")
 		expect(page).to have_content("error")
 		expect(TodoList.count).to eq(0)
 
 		visit "/todo_lists"
-		expect(page).to_not have_content("This is what I amdoing")
+		expect(page).to_not have_content("This is a todo list")
 	end
 
 	it "erro with no 3 characters" do
@@ -36,13 +37,28 @@ describe "Create todo lists" do
 		expect(page).to have_content("New Todo List")
 
 		fill_in "Title", with: "hi"
-		fill_in "Description", with: "This is what I amdoing"
+		fill_in "Description", with: "This is a todo list"
 		click_button ("Create Todo list")
 		expect(page).to have_content("error")
 		expect(TodoList.count).to eq(0)
 
 		visit "/todo_lists"
-		expect(page).to_not have_content("This is what I amdoing")
+		expect(page).to_not have_content("This is a todo list")
 	end
+	it "erro with no 3 characters" do
+		puts "erro with no 3 characters"
+		expect(TodoList.count).to eq(0)
+		visit "/todo_lists"
+		click_link "Ne"
+		expect(page).to have_content("New Todo List")
 
+		fill_in "Title", with: "hi"
+		fill_in "Description", with: ""
+		click_button ("Create Todo list")
+		expect(page).to have_content("error")
+		expect(TodoList.count).to eq(0)
+
+		visit "/todo_lists"
+		expect(page).to_not have_content("This is a todo list")
+	end
 end
