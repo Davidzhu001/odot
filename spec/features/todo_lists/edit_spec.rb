@@ -2,8 +2,6 @@ require "spec_helper"
 describe "editing_todo_lists " do
 	it "update correctly after you updating this term" do
 		todo_list = TodoList.create(title: "sPE,", description: "asdasd")
-
-
 		visit "/todo_lists"
 		within "#todo_list_#{todo_list.id}" do
 			click_link "Edit"
